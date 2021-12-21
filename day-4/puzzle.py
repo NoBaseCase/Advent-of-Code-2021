@@ -141,6 +141,7 @@ drawn_numbers = get_drawn_numbers(data[0])
 boards = generate_bingo_boards(data)
 winning_set = find_winning_board_set(drawn_numbers, boards)
 score = calculate_score(winning_set)
+print('|------PART ONE --------|')
 print('The winning board score is: {}'.format(score))
 
 # PART TWO
