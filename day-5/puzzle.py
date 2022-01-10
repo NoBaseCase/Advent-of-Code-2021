@@ -1,7 +1,8 @@
-class Coordinate():
+class Coordinate:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
 
 # read in the input data
 def read_data(filename):
@@ -12,13 +13,14 @@ def read_data(filename):
             list.append(line.replace("\n", ""))
     return list
 
+
 # creates a list of coordinate pairs
 def generate_coordinates(data):
     coordinate_list = []
     for item in data:
-        split_list = item.split(' -> ')
-        start_point = split_list[0].split(',')
-        end_point = split_list[1].split(',')
+        split_list = item.split(" -> ")
+        start_point = split_list[0].split(",")
+        end_point = split_list[1].split(",")
         coodinate_container = []
         start_coordinate = Coordinate(int(start_point[0]), int(start_point[1]))
         end_coordinate = Coordinate(int(end_point[0]), int(end_point[1]))
@@ -27,15 +29,17 @@ def generate_coordinates(data):
         coordinate_list.append(coodinate_container)
     return coordinate_list
 
+
 # creates an n x n grid
 def generate_map(n):
     grid = []
-    for i in range (n + 1):
+    for i in range(n + 1):
         row = []
         for j in range(n + 1):
             row.append(0)
         grid.append(row)
     return grid
+
 
 # finds the largest value in a list of coordinate pairs
 def find_largest_value(coordinate_list):
@@ -48,6 +52,7 @@ def find_largest_value(coordinate_list):
                 largest = coordinate.y
     return largest
 
+
 def draw_diagnal_line(grid, a, b):
     # select a starting point
     starting_coordinate = a
@@ -56,14 +61,15 @@ def draw_diagnal_line(grid, a, b):
     # selects the starting point that is closest to the first index of our grid
     # because the incrementation is postive
     if b.y < a.y:
-            starting_coordinate = b
-    if (positive_slope(a, b)):
-        for i in range(difference+1):
-            grid[starting_coordinate.y + i][ starting_coordinate.x - i] += 1    
-    else: 
-        for i in range(difference+1):
-            grid[starting_coordinate.y + i][ starting_coordinate.x + i] += 1
+        starting_coordinate = b
+    if positive_slope(a, b):
+        for i in range(difference + 1):
+            grid[starting_coordinate.y + i][starting_coordinate.x - i] += 1
+    else:
+        for i in range(difference + 1):
+            grid[starting_coordinate.y + i][starting_coordinate.x + i] += 1
     return grid
+
 
 def draw_verticle_line(grid, a, b):
     # determine the coordinate with the smallest y value
@@ -75,6 +81,7 @@ def draw_verticle_line(grid, a, b):
     for i in range(y_difference + 1):
         grid[smallest + i][a.x] += 1
     return grid
+
 
 def draw_horizontal_line(grid, a, b):
     # determine the coordinate with the smallest x value
@@ -88,16 +95,18 @@ def draw_horizontal_line(grid, a, b):
         grid[a.y][smallest + i] += 1
     return grid
 
+
 # checks for a 45 degree angle between two give points
 def has_45_degree_slope(x, y):
-    if abs((y.y - x.y) / (x.x-y.x)) == 1:
+    if abs((y.y - x.y) / (x.x - y.x)) == 1:
         return True
     else:
         return False
 
+
 # checks for a postive slope between two given points
 def positive_slope(x, y):
-    if ((y.y - x.y) / (x.x-y.x)) == 1:
+    if ((y.y - x.y) / (x.x - y.x)) == 1:
         return True
     else:
         return False
@@ -107,15 +116,15 @@ def mark_grid(grid, coordinates):
     for coordinate_set in coordinates:
         # checks for verticle line
         if coordinate_set[0].x == coordinate_set[1].x:
-            grid = draw_verticle_line(grid, coordinate_set[0], coordinate_set[1]) 
+            grid = draw_verticle_line(grid, coordinate_set[0], coordinate_set[1])
         # checks for horizontal line
         elif coordinate_set[0].y == coordinate_set[1].y:
             grid = draw_horizontal_line(grid, coordinate_set[0], coordinate_set[1])
         # checks for a 45 degree diagnal line
         elif has_45_degree_slope(coordinate_set[0], coordinate_set[1]):
-            grid = draw_diagnal_line(grid, coordinate_set[0], coordinate_set[1])   
+            grid = draw_diagnal_line(grid, coordinate_set[0], coordinate_set[1])
     return grid
-    
+
 
 # calculates the overlap total score
 def get_overlap_total(grid):
@@ -126,14 +135,15 @@ def get_overlap_total(grid):
                 output += 1
     return output
 
-data = read_data('input.txt')
+
+data = read_data("input.txt")
 coordinates = generate_coordinates(data)
 largest_value = find_largest_value(coordinates)
 grid = generate_map(largest_value)
 marked_grid = mark_grid(grid, coordinates)
-print('Part two | Total Score: {}'.format(get_overlap_total(grid)))
+print("Part two | Total Score: {}".format(get_overlap_total(grid)))
 
-# Note: to solve part one of the problem, comment out the last elif statement on the mark_grid() method 
+# Note: to solve part one of the problem, comment out the last elif statement on the mark_grid() method
 
 
-# PART 
+# PART

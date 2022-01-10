@@ -3,6 +3,7 @@ class Tile:
         self.value = value
         self.marked = False
 
+
 # read in the input data
 def read_data(filename):
     list = []
@@ -12,15 +13,17 @@ def read_data(filename):
             list.append(line.replace("\n", ""))
     return list
 
+
 # coverts a list of strings into a list of integers
 def get_drawn_numbers(list):
     output = []
-    list = list.split(',')
+    list = list.split(",")
     for item in list:
         output.append(int(item))
     return output
 
-# takes a 2-D array (list of numbers) and creates n/5 5x5 bingo board        
+
+# takes a 2-D array (list of numbers) and creates n/5 5x5 bingo board
 def generate_bingo_boards(data):
     # remove the first two elements in the data set
     data = data[2:]
@@ -42,13 +45,14 @@ def generate_bingo_boards(data):
     # build the bingo board set list
     iterator = 0
     boardlist = []
-    while(iterator < len(formatted_data)):
+    while iterator < len(formatted_data):
         board = []
-        for x in range(iterator, iterator+5):
+        for x in range(iterator, iterator + 5):
             board.append(formatted_data[x])
             iterator += 1
         boardlist.append(board)
     return boardlist
+
 
 # makes all tiles that contain a given number
 def mark_bingo_card(bingo_card, number):
@@ -57,6 +61,7 @@ def mark_bingo_card(bingo_card, number):
             if col.value == number:
                 col.marked = True
     return bingo_card
+
 
 # checks wether a bingo card is a winner
 def is_winner(bingo_card):
@@ -86,6 +91,7 @@ def is_winner(bingo_card):
 
     return False
 
+
 # returns the winning board and the number of the wining bingo card
 def find_winning_board_set(drawn_numbers, bingo_boards):
     winning_set = []
@@ -106,28 +112,29 @@ def calculate_score(winning_board_set):
     for row in winning_board_set[0]:
         for col in row:
             if col.marked == False:
-                score_sum += col.value 
+                score_sum += col.value
     return score_sum * multiplier
+
 
 # finds the last winning board
 def find_last_winning_board_set(drawn_numbers, bingo_boards):
 
     # temporary variables
     winning_board = []
-    winning_number= 0
+    winning_number = 0
     winning_set = []
 
     # for every number drawn
     for x in range(len(drawn_numbers)):
         # for every bingo card available
-        for i in range(len(bingo_boards)-1, 0, -1):
+        for i in range(len(bingo_boards) - 1, 0, -1):
             # mark off the current bingo card (if it contains the number drawn)
             bingo_boards[i] = mark_bingo_card(bingo_boards[i], drawn_numbers[x])
             # check to see if the bingo car dis a winner - if it is, save the current board, and winning number
             # then remove the bingo board from the list of available boards
             if is_winner(bingo_boards[i]):
                 winning_board = bingo_boards[i]
-                winning_number= drawn_numbers[x]
+                winning_number = drawn_numbers[x]
                 bingo_boards.pop(i)
 
     # append the winning board and numbe to a set and return
@@ -135,24 +142,21 @@ def find_last_winning_board_set(drawn_numbers, bingo_boards):
     winning_set.append(winning_number)
     return winning_set
 
+
 # PART ONE
-data = read_data('input.txt')
+data = read_data("input.txt")
 drawn_numbers = get_drawn_numbers(data[0])
 boards = generate_bingo_boards(data)
 winning_set = find_winning_board_set(drawn_numbers, boards)
 score = calculate_score(winning_set)
-print('|------PART ONE --------|')
-print('The winning board score is: {}'.format(score))
+print("|------PART ONE --------|")
+print("The winning board score is: {}".format(score))
 
 # PART TWO
-data = read_data('input.txt')
+data = read_data("input.txt")
 drawn_numbers = get_drawn_numbers(data[0])
 boards = generate_bingo_boards(data)
 winning_set = find_last_winning_board_set(drawn_numbers, boards)
 score = calculate_score(winning_set)
-print('|------PART TWO --------|')
-print('The winning board score is: {}'.format(score))
-        
-
-
-
+print("|------PART TWO --------|")
+print("The winning board score is: {}".format(score))

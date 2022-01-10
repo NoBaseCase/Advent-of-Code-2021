@@ -1,4 +1,4 @@
-'''
+"""
 --- Day 2: Dive! ---
 Now, you need to figure out how to pilot this thing.
 
@@ -57,7 +57,7 @@ After following these new instructions, you would have a horizontal position of 
 
 Using this new interpretation of the commands, calculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?
 
-'''
+"""
 
 # reads in data from input file
 def read_data(filename):
@@ -69,19 +69,21 @@ def read_data(filename):
             output.append(new_list)
     return output
 
+
 # part one
 def get_underwater_position(list):
     horizontal_position = 0
     depth = 0
     for command in list:
-        if command[0] == 'forward':
+        if command[0] == "forward":
             horizontal_position += command[1]
-        elif command[0] == 'down':
+        elif command[0] == "down":
             depth += command[1]
-        if command[0] == 'up':
+        if command[0] == "up":
             depth -= command[1]
     final_depth = horizontal_position * depth
     return final_depth
+
 
 # part two
 def get_absolute_underwater_position(list):
@@ -89,19 +91,19 @@ def get_absolute_underwater_position(list):
     depth = 0
     aim = 0
     for command in list:
-        if command[0] == 'forward':
+        if command[0] == "forward":
             horizontal_position += command[1]
             depth = depth + (aim * command[1])
-        elif command[0] == 'down':
+        elif command[0] == "down":
             aim += command[1]
-        elif command[0] == 'up':
+        elif command[0] == "up":
             aim -= command[1]
 
     final_depth = horizontal_position * depth
     return final_depth
 
-    
-data = read_integers('input.txt')
+
+data = read_integers("input.txt")
 position = get_absolute_underwater_position(data)
 
-print('final depth: {}'.format(position))
+print("final depth: {}".format(position))

@@ -1,4 +1,4 @@
-'''
+"""
 --- Day 3: Binary Diagnostic ---
 The submarine has been making some odd creaking noises, so you ask it to produce a diagnostic report just in case.
 
@@ -63,7 +63,7 @@ Finally, to find the life support rating, multiply the oxygen generator rating (
 
 Use the binary numbers in your diagnostic report to calculate the oxygen generator rating and CO2 scrubber rating, then multiply them together. What is the life support rating of the submarine? (Be sure to represent your answer in decimal, not binary.)
 
-'''
+"""
 
 # reads file data and returns a array of characters
 
@@ -87,11 +87,12 @@ def get_frequencies(data):
     # if a one or zero is found, respectively.
     for line in data:
         for index in range(len(line)):
-            if line[index] == '0':
+            if line[index] == "0":
                 frequencies[index] -= 1
             else:
                 frequencies[index] += 1
     return frequencies
+
 
 # generates a string of 1's or 0's depending on the index value of the array given
 
@@ -105,6 +106,7 @@ def get_gamma_rate(data):
             gamma_rate.append(1)
     return gamma_rate
 
+
 # generates the inverse of the string that is passed in
 
 
@@ -117,6 +119,7 @@ def get_epsilon_rate(gamma_rate):
             epsilon_rate.append(0)
     return epsilon_rate
 
+
 # converts binary array into a decimal integer
 
 
@@ -124,7 +127,7 @@ def calculate_value(list):
     sum = 0
     for index in range(len(list)):
         if list[index] == 1:
-            sum += 2**(len(list)-1-index)
+            sum += 2 ** (len(list) - 1 - index)
     return sum
 
 
@@ -135,11 +138,11 @@ def power_consumption(data):
     gamma_value = calculate_value(gamma_rate)
     epsilon_value = calculate_value(epsilon_rate)
 
-    print('|-----PART ONE------|')
-    print('power consumption: {}  \n \n'.format(gamma_value * epsilon_value))
+    print("|-----PART ONE------|")
+    print("power consumption: {}  \n \n".format(gamma_value * epsilon_value))
 
 
-data = read_data('input.txt')
+data = read_data("input.txt")
 power_consumption(data)
 
 
@@ -157,12 +160,12 @@ def get_oxygen_generator_rating(data):
         else:
             for item in output:
                 # sorts numbers into two lists - those with ones and zeros
-                if item[index] == '1':
+                if item[index] == "1":
                     ones.append(item)
                 else:
                     zeros.append(item)
             # if the list with ones is greater or equal to the list with zeros, set that as our working list
-            if(len(ones) >= len(zeros)):
+            if len(ones) >= len(zeros):
                 output = ones
             else:
                 output = zeros
@@ -183,17 +186,18 @@ def get_c02_scrubber_rating(data):
         else:
             # sorts numbers into two lists - those with ones and zeros
             for item in output:
-                if item[index] == '1':
+                if item[index] == "1":
                     ones.append(item)
                 else:
                     zeros.append(item)
             # if the list with zeros is less than or equal to the list with ones, set that as our working list
-            if(len(zeros) <= len(ones)):
+            if len(zeros) <= len(ones):
                 output = zeros
             else:
                 output = ones
     # return the last remaining item in the list
     return output[0]
+
 
 # converts binary string to list of integers
 
@@ -209,20 +213,33 @@ def life_support_rating(data):
     oxygen_generator_rating = get_oxygen_generator_rating(data)
     oxygen_generator_rating_value = convert(oxygen_generator_rating)
     oxygen_generator_rating_decimal_value = calculate_value(
-        oxygen_generator_rating_value)
+        oxygen_generator_rating_value
+    )
 
     c02_scrubber_rating = get_c02_scrubber_rating(data)
     c02_scrubber_rating_value = convert(c02_scrubber_rating)
-    c02_scrubber_rating_decimal_value = calculate_value(
-        c02_scrubber_rating_value)
+    c02_scrubber_rating_decimal_value = calculate_value(c02_scrubber_rating_value)
 
-    print('|-----PART TWO------|')
-    print('Oxygen generator Rating: {}\nOxygen generator Rating Value: {}\nDecimal Value: {}\n'.format(
-        oxygen_generator_rating, oxygen_generator_rating_value, oxygen_generator_rating_decimal_value))
-    print('C02 Scrubber Rating: {}\nC02 Scrubber Rating Value: {}\nDecimal Value: {}\n'.format(
-        c02_scrubber_rating, c02_scrubber_rating_value, c02_scrubber_rating_decimal_value))
-    print('Life Support Rating: {}'.format(
-        oxygen_generator_rating_decimal_value * c02_scrubber_rating_decimal_value))
+    print("|-----PART TWO------|")
+    print(
+        "Oxygen generator Rating: {}\nOxygen generator Rating Value: {}\nDecimal Value: {}\n".format(
+            oxygen_generator_rating,
+            oxygen_generator_rating_value,
+            oxygen_generator_rating_decimal_value,
+        )
+    )
+    print(
+        "C02 Scrubber Rating: {}\nC02 Scrubber Rating Value: {}\nDecimal Value: {}\n".format(
+            c02_scrubber_rating,
+            c02_scrubber_rating_value,
+            c02_scrubber_rating_decimal_value,
+        )
+    )
+    print(
+        "Life Support Rating: {}".format(
+            oxygen_generator_rating_decimal_value * c02_scrubber_rating_decimal_value
+        )
+    )
 
 
 life_support_rating(data)
